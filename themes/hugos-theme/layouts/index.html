@@ -1,0 +1,202 @@
+{{- $desktop := index hugo.Data "desktop" -}}
+{{- $profile := $desktop.profile -}}
+{{- $apps := $desktop.apps -}}
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body>
+  <div id="desktop">
+    <!-- Desktop icons (generated from data/desktop.yaml) -->
+    <div class="desktop-icons">
+      {{ range $apps }}
+        {{ $win := cond (eq .type "web") "browser" .id }}
+        <button class="desk-icon" data-window="{{ $win }}"{{ with .url }} data-url="{{ . }}"{{ end }}>
+          <span class="i{{ if eq .icon ">_" }} term-ico{{ end }}">{{ .icon }}</span>
+          <span class="l">{{ .label }}</span>
+        </button>
+      {{ end }}
+    </div>
+  </div>
+
+  <!-- Plasma panel -->
+  <div id="panel">
+    <button id="launcher" title="Application launcher" aria-label="Application launcher">
+      <span class="dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+    </button>
+    <div id="tasklist"></div>
+    <div id="systray">
+      <span class="tray-icon" title="Network">🌐</span>
+      <span class="tray-icon" title="Sound">🔊</span>
+      <span id="clock" title="Calendar"><span id="clock-time"></span><span id="clock-date"></span></span>
+    </div>
+    <button id="show-desktop" title="Show desktop (Meta+D)" aria-label="Show desktop">
+      <svg viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="8.5" rx="1"></rect><line x1="6" y1="14" x2="10" y2="14"></line></svg>
+    </button>
+  </div>
+
+  <!-- Kickoff launcher -->
+  <div id="kickoff">
+    <div class="kickoff-header">
+      <div class="kickoff-avatar">{{ $profile.initials | default "★" }}</div>
+      <div>
+        <div class="kickoff-name">{{ $profile.name }}</div>
+        <div class="kickoff-sub">{{ $profile.role }}</div>
+      </div>
+    </div>
+    <div class="kickoff-apps">
+      {{ range where $apps "menu" true }}
+        {{ $win := cond (eq .type "web") "browser" .id }}
+        <button class="kickoff-app" data-window="{{ $win }}"{{ with .url }} data-url="{{ . }}"{{ end }}>
+          <span class="i{{ if eq .icon ">_" }} term-ico{{ end }}">{{ .icon }}</span> {{ .label }}
+        </button>
+      {{ end }}
+    </div>
+    <div class="kickoff-credit">
+      <span>hugOS - a Hugo theme by <b>Paradox</b></span>
+      <span class="kc-links">
+        <a href="https://github.com/paradox-ng" target="_blank" rel="noopener" title="GitHub">GitHub</a>
+        <a href="https://www.linkedin.com/in/carles-romagosa/" target="_blank" rel="noopener" title="LinkedIn">LinkedIn</a>
+      </span>
+    </div>
+  </div>
+
+  <!-- ===== Window templates (generated per app) ===== -->
+  {{ range $apps }}
+    {{ if eq .type "page" }}
+      {{ $p := site.GetPage .source }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" {{ printf "data-icon=%q" .icon | safeHTMLAttr }} data-type="page">
+        <div class="doc">{{ with $p }}{{ .Content }}{{ else }}<p class="muted">Page "{{ .source }}" not found.</p>{{ end }}</div>
+      </template>
+    {{ else if eq .type "folder" }}
+      {{ $section := .source }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" {{ printf "data-icon=%q" .icon | safeHTMLAttr }} data-type="folder">
+        <div class="filemanager">
+          {{ range (sort (where site.RegularPages "Section" $section) "Date" "desc") }}
+            <button class="file open-win" data-window="doc-{{ $section }}-{{ .File.ContentBaseName }}">
+              <span class="fi">📝</span>
+              <span class="fn">{{ .Title }}</span>
+              <span class="fd">{{ with .Date }}{{ .Format "Jan 2, 2006" }}{{ end }}{{ with .Params.tags }} · {{ delimit . ", " }}{{ end }}</span>
+            </button>
+          {{ else }}
+            <p class="muted" style="padding:14px">This folder is empty.</p>
+          {{ end }}
+        </div>
+      </template>
+      {{ range (where site.RegularPages "Section" $section) }}
+        <template id="tpl-doc-{{ $section }}-{{ .File.ContentBaseName }}" data-title="{{ .Title }} - Notes" data-icon="📝" data-type="page">
+          <div class="doc">
+            <h1>{{ .Title }}</h1>
+            {{ with .Date }}<p class="muted small">{{ .Format "January 2, 2006" }}</p>{{ end }}
+            {{ .Content }}
+          </div>
+        </template>
+      {{ end }}
+    {{ else if eq .type "terminal" }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" data-icon="&gt;_" data-type="terminal">
+        <div class="terminal">
+          <div class="term-out"></div>
+          <div class="term-inline">
+            <span class="term-prompt">user@hugos<span class="term-path">:~</span>$</span>
+            <input class="term-input" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal input">
+          </div>
+        </div>
+      </template>
+    {{ else if eq .type "gallery" }}
+      {{ $page := site.GetPage .source }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" {{ printf "data-icon=%q" .icon | safeHTMLAttr }} data-type="gallery">
+        <div class="gallery">
+          {{ with $page }}
+            {{ range (sort (.Resources.ByType "image") "Name") }}
+              {{ $full := .RelPermalink }}
+              {{ $thumb := $full }}
+              {{ if ne (path.Ext .Name) ".svg" }}
+                {{ $t := .Fit "600x600 webp q82" }}
+                {{ $thumb = $t.RelPermalink }}
+              {{ end }}
+              {{ $cap := .Name | path.Base | replaceRE "\\.[^.]+$" "" | replaceRE "^[0-9]+[-_]?" "" | humanize | title }}
+              <button class="photo-thumb" data-full="{{ $full }}" data-caption="{{ $cap }}">
+                <img loading="lazy" src="{{ $thumb }}" alt="{{ $cap }}">
+              </button>
+            {{ else }}
+              <p class="muted" style="padding:14px">No images in this album.</p>
+            {{ end }}
+          {{ end }}
+        </div>
+      </template>
+    {{ else if eq .type "calculator" }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" {{ printf "data-icon=%q" .icon | safeHTMLAttr }} data-type="calculator">
+        <div class="calc"><div class="calc-display">0</div><div class="calc-keys"></div></div>
+      </template>
+    {{ else if eq .type "sticky" }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" {{ printf "data-icon=%q" .icon | safeHTMLAttr }} data-type="sticky">
+        <div class="sticky-board"></div>
+      </template>
+    {{ else if eq .type "sysmon" }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" {{ printf "data-icon=%q" .icon | safeHTMLAttr }} data-type="sysmon">
+        <div class="sysmon"></div>
+      </template>
+    {{ else if eq .type "wiki" }}
+      {{ $section := .source }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" {{ printf "data-icon=%q" .icon | safeHTMLAttr }} data-type="wiki">
+        <div class="wiki">
+          <aside class="wiki-side">
+            <input class="wiki-search" placeholder="Search…" aria-label="Search">
+            <ul class="wiki-nav">
+              {{ range (sort (where site.RegularPages "Section" $section) "Weight") }}
+                <li><button class="wiki-link" data-key="{{ .File.ContentBaseName }}">{{ .Title }}</button></li>
+              {{ end }}
+            </ul>
+          </aside>
+          <div class="wiki-main">
+            {{ range (sort (where site.RegularPages "Section" $section) "Weight") }}
+              <article class="wiki-page doc" data-key="{{ .File.ContentBaseName }}" hidden>
+                {{ .Content }}
+              </article>
+            {{ end }}
+          </div>
+        </div>
+      </template>
+    {{ else if eq .type "trash" }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" {{ printf "data-icon=%q" .icon | safeHTMLAttr }} data-type="trash">
+        <div class="trash"></div>
+      </template>
+    {{ else if eq .type "bsod" }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" {{ printf "data-icon=%q" .icon | safeHTMLAttr }} data-type="bsod"></template>
+    {{ else if eq .type "settings" }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" data-icon="⚙️" data-type="settings">
+        <div class="settings"></div>
+      </template>
+    {{ else if eq .type "browser" }}
+      <template id="tpl-{{ .id }}" data-title="{{ .title }}" data-icon="🌐" data-type="browser">
+        <div class="browser">
+          <div class="browser-toolbar">
+            <button class="bb nav-back" title="Back" disabled>‹</button>
+            <button class="bb nav-fwd" title="Forward" disabled>›</button>
+            <button class="bb nav-reload" title="Reload">⟳</button>
+            <div class="url-wrap">
+              <span class="url-lock">🔒</span>
+              <input class="url-bar" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Search or enter address">
+            </div>
+            <button class="bb nav-home" title="Home">⌂</button>
+            <button class="bb nav-ext" title="Open in new tab">↗</button>
+          </div>
+          <div class="browser-view"></div>
+        </div>
+      </template>
+    {{ end }}
+  {{ end }}
+
+  {{- $appList := slice -}}
+  {{- range $apps -}}
+    {{- $appList = $appList | append (dict "id" .id "label" .label "type" .type "url" (.url | default "") "open" (.open | default false)) -}}
+  {{- end -}}
+  {{- $words := 0 -}}
+  {{- range site.RegularPages -}}{{- $words = add $words .WordCount -}}{{- end -}}
+  {{- $stats := dict "pages" (len site.RegularPages) "words" $words "hugo" hugo.Version "built" (now.Format "Jan 2, 2006 · 15:04") -}}
+  <script id="site-data" type="application/json">{{ dict "profile" $profile "apps" $appList "bookmarks" ($desktop.bookmarks | default slice) "stats" $stats | jsonify }}</script>
+
+  <script src="{{ "js/desktop.js" | relURL }}"></script>
+</body>
+</html>

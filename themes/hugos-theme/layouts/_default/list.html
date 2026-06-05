@@ -1,0 +1,11 @@
+{{ define "main" }}
+<div class="doc">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  <ul class="plain-list">
+    {{ range (sort .Pages "Date" "desc") }}
+      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ with .Date }} <span class="muted small">· {{ .Format "Jan 2, 2006" }}</span>{{ end }}</li>
+    {{ end }}
+  </ul>
+</div>
+{{ end }}

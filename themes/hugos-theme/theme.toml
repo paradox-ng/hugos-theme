@@ -1,0 +1,13 @@
+name = "hugOS"
+license = "Unlicense"
+licenselink = "https://github.com/paradox-ng/hugos-theme/blob/main/LICENSE"
+description = "hugOS - a 'web desktop' theme for Hugo by Paradox. Content sections become apps; markdown, images and URLs open in draggable, resizable windows."
+homepage = "https://github.com/paradox-ng/hugos-theme"
+demosite = "https://example.com"
+tags = ["desktop", "portfolio", "creative", "single page", "experimental"]
+features = ["windows", "terminal", "browser", "file-manager", "gallery", "responsive"]
+min_version = "0.146.0"
+
+[author]
+  name = "Paradox"
+  homepage = "https://github.com/paradox-ng"

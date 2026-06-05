@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body class="plain">
+  <header class="plain-header">
+    <a href="{{ "/" | relURL }}">🖥️ Open the desktop</a>
+  </header>
+  <main class="plain-main">
+    {{ block "main" . }}{{ end }}
+  </main>
+</body>
+</html>

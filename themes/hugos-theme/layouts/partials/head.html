@@ -1,0 +1,30 @@
+{{- $desktop := index hugo.Data "desktop" -}}
+{{- $profile := and $desktop $desktop.profile | default dict -}}
+{{- $desc := .Description | default $profile.about | default site.Params.description | default site.Title -}}
+{{- $title := cond .IsHome site.Title (printf "%s · %s" .Title site.Title) -}}
+{{- $img := or .Params.image site.Params.ogImage -}}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $desc }}">
+<link rel="canonical" href="{{ .Permalink }}">
+{{ hugo.Generator }}
+
+{{/* Open Graph */}}
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
+<meta property="og:url" content="{{ .Permalink }}">
+{{ with $img }}<meta property="og:image" content="{{ . | absURL }}">{{ end }}
+
+{{/* Twitter card */}}
+<meta name="twitter:card" content="{{ cond (ne $img nil) "summary_large_image" "summary" }}">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $desc }}">
+{{ with $img }}<meta name="twitter:image" content="{{ . | absURL }}">{{ end }}
+
+<link rel="icon" type="image/x-icon" href="{{ "favicon.ico" | relURL }}">
+{{ with .OutputFormats.Get "rss" }}<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ .Permalink }}">{{ end }}
+<link rel="stylesheet" href="{{ "css/desktop.css" | relURL }}">
+<style>:root { --accent: {{ site.Params.accent | default "#3daee9" }}; }</style>

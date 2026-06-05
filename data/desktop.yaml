@@ -1,0 +1,47 @@
+# ============================================================================
+#  The whole desktop is described here - no code editing needed.
+#  Each entry in `apps` becomes a desktop icon + launcher entry + a window.
+#
+#  type:
+#    page    -> opens a single markdown page in a document window  (needs: source = "<page path>")
+#    folder  -> opens a content section as a file manager; files open as docs (needs: source = "<section>")
+#    wiki    -> opens a content section as a searchable wiki        (needs: source = "<section>")
+#    gallery -> opens an image page-bundle as a photo gallery       (needs: source = "<bundle>")
+#    terminal-> the terminal app          settings -> the settings panel
+#    browser -> a web browser             calculator / sticky / sysmon / trash -> built-in tools
+#    web     -> a shortcut that opens the browser at a URL          (needs: url = "...")
+#
+#  See the Handbook app (content/docs/) for the full reference.
+#
+#  Flags:  open: true  -> auto-open the window on load (several cascade)
+#          menu: true  -> show the app in the launcher / Start menu (else desktop-only)
+# ============================================================================
+
+profile:
+  name: "Paradox"
+  role: "Fullstack Developer"
+  initials: "P"
+  email: "paradox@example.com"
+  about: "Fullstack developer working with Angular, Node, and SQL/Mongo. Fond of self-hosting on Proxmox LXC and automating everything with Jenkins."
+
+bookmarks:
+  - { label: "GitHub",           icon: "🐙", url: "https://github.com/paradox-ng" }
+  - { label: "Internet Archive", icon: "📚", url: "https://archive.org/" }
+  - { label: "Minerva Archive",  icon: "🏛️", url: "https://minerva-archive.org/" }
+
+apps:
+  - { id: about,      label: "About Me",       icon: "📄",  title: "About Me - Notes",         type: page,       source: "about",  open: true }
+  - { id: cv,         label: "CV",             icon: "🪪",  title: "Curriculum Vitae - Notes", type: page,       source: "cv" }
+  - { id: handbook,   label: "Handbook",       icon: "📖",  title: "Handbook - Wiki",          type: wiki,       source: "docs",   menu: true }
+  - { id: blog,       label: "Blog",           icon: "📰",  title: "Blog - File Explorer",     type: folder,     source: "blog" }
+  - { id: photos,     label: "Photos",         icon: "🖼️",  title: "Photos - Gallery",         type: gallery,    source: "photos", menu: true }
+  - { id: calculator, label: "Calculator",     icon: "🧮",  title: "Calculator",               type: calculator, menu: true }
+  - { id: stickies,   label: "Sticky Notes",   icon: "🗒️",  title: "Sticky Notes",             type: sticky,     menu: true }
+  - { id: monitor,    label: "System Monitor", icon: "📊",  title: "System Monitor",           type: sysmon,     menu: true }
+  - { id: terminal,   label: "Terminal",       icon: ">_",  title: "Terminal",                 type: terminal,   menu: true }
+  - { id: settings,   label: "Settings",       icon: "⚙️",  title: "System Settings",          type: settings,   menu: true }
+  - { id: browser,    label: "Browser",        icon: "🌐",  title: "Browser",                  type: browser,    menu: true }
+  - { id: trash,      label: "Trash",          icon: "🗑️",  title: "Trash",                    type: trash }
+  - { id: minesweeper, label: "Minesweeper",   icon: "💣",  title: "Minesweeper",              type: bsod }
+  - { id: solitaire,  label: "Solitaire",      icon: "🃏",  title: "Solitaire",                type: bsod }
+  - { id: github,     label: "GitHub",         icon: "🐙",                                     type: web,        url: "https://github.com/paradox-ng" }

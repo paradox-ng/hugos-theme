@@ -1,0 +1,9 @@
+baseURL = "http://localhost:1313/"
+title = "hugOS - Hugo Theme by Paradox"
+theme = "hugos-theme"
+
+[params]
+  accent = "#3daee9"   # desktop accent colour
+
+[markup.goldmark.renderer]
+  unsafe = true        # allow raw HTML in markdown content

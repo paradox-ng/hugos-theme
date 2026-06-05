@@ -1,6 +1,6 @@
 {{- $desktop := index hugo.Data "desktop" -}}
 {{- $profile := and $desktop $desktop.profile | default dict -}}
-{{- $desc := .Description | default $profile.about | default site.Params.description | default site.Title -}}
+{{- $desc := .Description | default site.Params.description | default $profile.about | default site.Title -}}
 {{- $title := cond .IsHome site.Title (printf "%s · %s" .Title site.Title) -}}
 {{- $img := or .Params.image site.Params.ogImage -}}
 <meta charset="UTF-8">

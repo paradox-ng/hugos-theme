@@ -4,6 +4,8 @@ theme = "hugos-theme"
 
 [params]
   accent = "#3daee9"   # desktop accent colour
+  description = "A KDE-Plasma-inspired 'web desktop' theme for Hugo. Your content becomes draggable app windows."
+  ogImage = "og-image.jpg"   # social/link-preview card (static/og-image.jpg)
 
 [markup.goldmark.renderer]
   unsafe = true        # allow raw HTML in markdown content

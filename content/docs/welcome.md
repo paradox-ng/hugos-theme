@@ -49,3 +49,9 @@ without touching any code.
 - **App Types Reference** - every kind of app you can declare.
 
 > Tip: use the search box at the top of this Handbook to jump to any page.
+
+## Source
+
+hugOS is open source and released into the public domain (The Unlicense). Browse
+the code, file an issue, or fork it on
+[GitHub](https://github.com/paradox-ng/hugos-theme).

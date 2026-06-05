@@ -41,8 +41,6 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v6
-        with:
-          enablement: true
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production

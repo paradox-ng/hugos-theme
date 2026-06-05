@@ -19,7 +19,7 @@ nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 ## Experience
 
 ### Senior Fullstack Developer - Dolor Studio
-*2021 – Present · Remote*
+*2021 - Present · Remote*
 
 - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 - Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -27,14 +27,14 @@ nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 - Duis aute irure dolor in reprehenderit in voluptate velit esse.
 
 ### Fullstack Developer - Eiusmod Labs
-*2017 – 2021 · Tempor*
+*2017 - 2021 · Tempor*
 
 - Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.
 - Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.
 - Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis.
 
 ### Backend Developer - Magna Co.
-*2014 – 2017 · Aliqua*
+*2014 - 2017 · Aliqua*
 
 - Quis autem vel eum iure reprehenderit qui in ea voluptate velit.
 - At vero eos et accusamus et iusto odio dignissimos ducimus.

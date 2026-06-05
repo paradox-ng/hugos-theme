@@ -9,7 +9,24 @@ explorer, a photo gallery, a settings panel and a handful of small tools - all
 driven by config and content, with no JavaScript framework and no build step
 beyond Hugo itself.
 
-> _Screenshot goes here - run `hugo server` and open <http://localhost:1313>._
+![The hugOS desktop](readme_pictures/1.png)
+
+## It's dynamic - the desktop grows with your content
+
+There is no hard-coded layout. The entire desktop is generated from your
+**markdown files** plus **one small YAML file** (`data/desktop.yaml`) - so it
+grows and reshapes itself as you write:
+
+- **Drop in a markdown file and it just appears** - a new note, a new blog post,
+  a new wiki page shows up in its window with **no template edits and no code**.
+- **A content section *becomes* an app** - point an app at a section and it
+  renders as a folder of files, a searchable wiki, or a photo gallery, built
+  from whatever is inside it.
+- **Apps are declared, not coded** - add, remove, or reorder them by editing a
+  few lines of YAML.
+
+You write content the way you already do in Hugo, and the desktop builds itself
+around it.
 
 ## Why this exists
 
@@ -47,6 +64,26 @@ accessible and indexable even with JavaScript turned off.
 - ⚙️ **Settings** - live accent colour, wallpaper, and dark / light theme (persisted)
 - 📱 Mobile-friendly, themed scrollbars, reduced-motion aware
 - 🕰️ A few **easter eggs** for the curious (try the clock → "time travel")
+
+## Screenshots
+
+Several windows open at once, with live theming from the Settings app:
+
+![Multiple windows and the Settings panel](readme_pictures/3.png)
+
+The built-in **Handbook** (a searchable wiki) alongside the Unix-like **terminal**:
+
+![Handbook and terminal](readme_pictures/2.png)
+
+### Time travel 🕰️
+
+Open the clock, pick a year, and the whole desktop re-skins itself - boot splash,
+wallpaper, window chrome and all. It's a hidden easter egg; your content stays
+exactly the same underneath.
+
+| Windows 95 | Windows XP | Windows 7 (Aero) |
+|:---:|:---:|:---:|
+| ![Windows 95](readme_pictures/4.png) | ![Windows XP](readme_pictures/5.png) | ![Windows 7](readme_pictures/6.png) |
 
 ## Quick start
 
@@ -195,7 +232,7 @@ SVGs are used as-is.
 ### Built-in tools & shortcuts
 
 `terminal`, `browser`, `settings`, `calculator`, `sticky`, `sysmon` and `trash`
-need no `source` — just give them an `id`, `label`, `icon`, `title`. A `web` app
+need no `source` - just give them an `id`, `label`, `icon`, `title`. A `web` app
 is a shortcut that opens a URL in the browser:
 
 ```yaml
@@ -236,10 +273,10 @@ maintained product with guarantees.
 
 Made by **Paradox**.
 
-- GitHub - [github.com/paradox-ng](https://github.com/paradox-ng)
-- LinkedIn - [LinkedIn](https://www.linkedin.com/in/carles-romagosa/)
+- [GitHub](https://github.com/paradox-ng)
+- [LinkedIn](https://www.linkedin.com/in/carles-romagosa/)
 
 ## License
 
-[The Unlicense](LICENSE) — this is free and unencumbered software released into
+[The Unlicense](LICENSE) - this is free and unencumbered software released into
 the public domain. Do anything you want with it, with or without credit.
